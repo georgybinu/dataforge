@@ -1,0 +1,5 @@
+order_id,customer_id,product_id,quantity,unit_price
+1001,C001,P001,2,499.00
+1002,C002,P002,1,799.00
+1003,C003,P001,3,499.00
+1004,C001,P003,2,299.00

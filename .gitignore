@@ -38,13 +38,11 @@ htmlcov/
 Thumbs.db
 
 # Local data artifacts
-data/raw/*
 data/bronze/*
 data/silver/*
 data/gold/*
 data/quarantine/*
-!data/raw/.gitkeep
-!data/bronze/.gitkeep
-!data/silver/.gitkeep
-!data/gold/.gitkeep
-!data/quarantine/.gitkeep
+
+# Keep sample source data in Git
+!data/raw/
+!data/raw/*.csv
