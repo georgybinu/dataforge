@@ -1,0 +1,26 @@
+project:
+  name: DataForge
+  environment: development
+
+paths:
+  raw_data: data/raw
+  bronze_data: data/bronze
+  silver_data: data/silver
+  gold_data: data/gold
+  quarantine_data: data/quarantine
+  logs: logs
+
+spark:
+  app_name: DataForge
+  master: local[*]
+
+quality:
+  quarantine_invalid_records: true
+  fail_on_critical_rules: true
+
+monitoring:
+  enabled: true
+  metrics_output_path: data/gold/pipeline_metrics
+
+dashboard:
+  title: DataForge Pipeline Reliability Dashboard

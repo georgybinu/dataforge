@@ -1,0 +1,8 @@
+pandas
+pyarrow
+pyspark
+duckdb
+pyyaml
+pytest
+streamlit
+plotly
