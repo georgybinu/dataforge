@@ -9,9 +9,16 @@ from typing import Any, Union
 
 import pandas as pd
 
+from src.monitoring.pipeline_metrics import (
+    DEFAULT_METRICS_PATH,
+    append_pipeline_metric,
+    create_pipeline_metric,
+    utc_now,
+)
 from src.validation.data_quality import run_quality_checks
 
 
+PIPELINE_NAME = "retail_quality_pipeline"
 DEFAULT_INPUT_PATH = Path("data/raw/orders_dirty.csv")
 DEFAULT_CUSTOMERS_PATH = Path("data/raw/customers.csv")
 DEFAULT_PRODUCTS_PATH = Path("data/raw/products.csv")
@@ -96,6 +103,7 @@ def run_quality_pipeline(
     stores_path: Union[str, Path] = DEFAULT_STORES_PATH,
     silver_output_path: Union[str, Path] = DEFAULT_SILVER_OUTPUT_PATH,
     quarantine_output_path: Union[str, Path] = DEFAULT_QUARANTINE_OUTPUT_PATH,
+    metrics_output_path: Union[str, Path] = DEFAULT_METRICS_PATH,
 ) -> dict[str, Any]:
     """Run quality checks and write valid and invalid retail order records.
 
@@ -106,6 +114,7 @@ def run_quality_pipeline(
         stores_path: CSV file containing valid stores.
         silver_output_path: Parquet path for valid records.
         quarantine_output_path: Parquet path for invalid records.
+        metrics_output_path: Parquet path for pipeline run metrics.
 
     Returns:
         A summary dictionary with record counts, rejection rate, and status.
@@ -120,43 +129,82 @@ def run_quality_pipeline(
     stores_file = Path(stores_path)
     silver_file = Path(silver_output_path)
     quarantine_file = Path(quarantine_output_path)
+    metrics_file = Path(metrics_output_path)
 
-    orders = _read_csv_file(input_file, "Input")
-    customers = _read_csv_file(customers_file, "Customers reference")
-    products = _read_csv_file(products_file, "Products reference")
-    stores = _read_csv_file(stores_file, "Stores reference")
+    start_time = utc_now()
+    total_records = 0
+    valid_record_count = 0
+    rejected_record_count = 0
 
-    rules = build_retail_order_rules(customers, products, stores)
-    validation_results = run_quality_checks(orders, rules)
+    try:
+        orders = _read_csv_file(input_file, "Input")
+        total_records = len(orders)
 
-    orders_with_results = orders.copy()
-    orders_with_results["is_valid"] = validation_results["is_valid"]
-    orders_with_results["failed_rules"] = validation_results["failed_rules"]
+        customers = _read_csv_file(customers_file, "Customers reference")
+        products = _read_csv_file(products_file, "Products reference")
+        stores = _read_csv_file(stores_file, "Stores reference")
 
-    valid_records = orders_with_results[orders_with_results["is_valid"]].copy()
-    invalid_records = orders_with_results[~orders_with_results["is_valid"]].copy()
+        rules = build_retail_order_rules(customers, products, stores)
+        validation_results = run_quality_checks(orders, rules)
 
-    valid_records = valid_records.drop(columns=["is_valid", "failed_rules"])
-    invalid_records["failed_rules"] = invalid_records["failed_rules"].apply(", ".join)
-    invalid_records = invalid_records.drop(columns=["is_valid"])
+        orders_with_results = orders.copy()
+        orders_with_results["is_valid"] = validation_results["is_valid"]
+        orders_with_results["failed_rules"] = validation_results["failed_rules"]
 
-    silver_file.parent.mkdir(parents=True, exist_ok=True)
-    quarantine_file.parent.mkdir(parents=True, exist_ok=True)
+        valid_records = orders_with_results[orders_with_results["is_valid"]].copy()
+        invalid_records = orders_with_results[~orders_with_results["is_valid"]].copy()
 
-    valid_records.to_parquet(silver_file, index=False)
-    invalid_records.to_parquet(quarantine_file, index=False)
+        valid_records = valid_records.drop(columns=["is_valid", "failed_rules"])
+        invalid_records["failed_rules"] = invalid_records["failed_rules"].apply(
+            ", ".join
+        )
+        invalid_records = invalid_records.drop(columns=["is_valid"])
 
-    total_records = len(orders)
-    rejected_records = len(invalid_records)
-    rejection_rate = rejected_records / total_records if total_records else 0.0
+        silver_file.parent.mkdir(parents=True, exist_ok=True)
+        quarantine_file.parent.mkdir(parents=True, exist_ok=True)
 
-    return {
-        "total_records": total_records,
-        "valid_records": len(valid_records),
-        "rejected_records": rejected_records,
-        "rejection_rate": rejection_rate,
-        "status": "success",
-    }
+        valid_records.to_parquet(silver_file, index=False)
+        invalid_records.to_parquet(quarantine_file, index=False)
+
+        valid_record_count = len(valid_records)
+        rejected_record_count = len(invalid_records)
+        rejection_rate = rejected_record_count / total_records if total_records else 0.0
+
+        end_time = utc_now()
+        metric = create_pipeline_metric(
+            pipeline_name=PIPELINE_NAME,
+            start_time=start_time,
+            end_time=end_time,
+            records_received=total_records,
+            records_valid=valid_record_count,
+            records_rejected=rejected_record_count,
+            status="success",
+        )
+        append_pipeline_metric(metric, metrics_file)
+
+        return {
+            "total_records": total_records,
+            "valid_records": valid_record_count,
+            "rejected_records": rejected_record_count,
+            "rejection_rate": rejection_rate,
+            "status": "success",
+        }
+    except Exception:
+        end_time = utc_now()
+        failed_metric = create_pipeline_metric(
+            pipeline_name=PIPELINE_NAME,
+            start_time=start_time,
+            end_time=end_time,
+            records_received=total_records,
+            records_valid=valid_record_count,
+            records_rejected=rejected_record_count,
+            status="failed",
+        )
+        try:
+            append_pipeline_metric(failed_metric, metrics_file)
+        except Exception:
+            pass
+        raise
 
 
 def main() -> None:
