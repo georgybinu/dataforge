@@ -19,6 +19,16 @@ DEFAULT_STORES_PATH = Path("data/raw/stores.csv")
 DEFAULT_SILVER_OUTPUT_PATH = Path("data/silver/orders_valid.parquet")
 DEFAULT_QUARANTINE_OUTPUT_PATH = Path("data/quarantine/orders_invalid.parquet")
 
+RETAIL_ORDER_SCHEMA = [
+    "order_id",
+    "customer_id",
+    "product_id",
+    "store_id",
+    "order_date",
+    "quantity",
+    "unit_price",
+]
+
 
 def _read_csv_file(path: Path, description: str) -> pd.DataFrame:
     """Read a CSV file or raise a clear error when it is missing."""
@@ -35,10 +45,29 @@ def build_retail_order_rules(
 ) -> dict[str, dict[str, Any]]:
     """Build retail order quality rules using loaded reference data."""
     return {
+        "retail_schema": {
+            "type": "schema",
+            "expected_columns": RETAIL_ORDER_SCHEMA,
+        },
         "order_id_unique": {"type": "unique", "column": "order_id"},
         "customer_required": {"type": "not_null", "columns": ["customer_id"]},
+        "quantity_type": {
+            "type": "type",
+            "column": "quantity",
+            "expected_type": "integer",
+        },
         "quantity_positive": {"type": "positive", "column": "quantity"},
+        "unit_price_type": {
+            "type": "type",
+            "column": "unit_price",
+            "expected_type": "numeric",
+        },
         "price_non_negative": {"type": "non_negative", "column": "unit_price"},
+        "order_date_valid": {
+            "type": "date",
+            "column": "order_date",
+            "date_format": "%Y-%m-%d",
+        },
         "customer_referential_integrity": {
             "type": "referential_integrity",
             "column": "customer_id",

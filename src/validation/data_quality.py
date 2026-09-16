@@ -1,6 +1,6 @@
 """Basic data quality checks for DataForge."""
 
-from typing import Iterable
+from typing import Iterable, Optional
 
 import pandas as pd
 
@@ -54,12 +54,85 @@ def validate_referential_integrity(
     return df[column].notna() & df[column].isin(reference_values)
 
 
+def get_schema_differences(
+    df: pd.DataFrame,
+    expected_columns: list[str],
+) -> dict[str, list[str]]:
+    """Return missing and unexpected columns for a dataframe schema."""
+    actual_columns = set(df.columns)
+    expected_column_set = set(expected_columns)
+
+    return {
+        "missing_columns": sorted(expected_column_set - actual_columns),
+        "unexpected_columns": sorted(actual_columns - expected_column_set),
+    }
+
+
+def validate_schema(df: pd.DataFrame, expected_columns: list[str]) -> bool:
+    """Return True when dataframe columns exactly match the expected schema.
+
+    Column order does not matter. Missing columns and unexpected extra columns
+    both make the schema invalid.
+    """
+    differences = get_schema_differences(df, expected_columns)
+    return not differences["missing_columns"] and not differences["unexpected_columns"]
+
+
+def validate_column_type(
+    df: pd.DataFrame,
+    column: str,
+    expected_type: str,
+) -> pd.Series:
+    """Return True for rows where values can be interpreted as the expected type."""
+    _validate_columns_exist(df, [column])
+
+    supported_types = {"string", "integer", "float", "numeric"}
+    if expected_type not in supported_types:
+        raise ValueError(f"Unsupported expected type: {expected_type}")
+
+    values = df[column]
+
+    if expected_type == "string":
+        return values.notna()
+
+    numeric_values = pd.to_numeric(values, errors="coerce")
+    valid_numeric = values.notna() & numeric_values.notna()
+
+    if expected_type == "integer":
+        return valid_numeric & (numeric_values % 1 == 0)
+
+    return valid_numeric
+
+
+def validate_date(
+    df: pd.DataFrame,
+    column: str,
+    date_format: Optional[str] = None,
+) -> pd.Series:
+    """Return True for rows where values can be parsed as valid dates.
+
+    If date_format is provided, values must match that format. Null values are
+    always invalid.
+    """
+    _validate_columns_exist(df, [column])
+
+    parsed_dates = pd.to_datetime(
+        df[column],
+        format=date_format,
+        errors="coerce",
+    )
+    return df[column].notna() & parsed_dates.notna()
+
+
 def run_quality_checks(df: pd.DataFrame, rules: dict) -> pd.DataFrame:
     """Run configured quality checks and return row-level validation results.
 
     The rules dictionary maps rule names to rule definitions. Each rule definition
-    must include a supported type: not_null, unique, positive, non_negative, or
-    referential_integrity.
+    must include a supported type: not_null, unique, positive, non_negative,
+    referential_integrity, schema, type, or date.
+
+    Schema rules validate the whole dataframe. If a schema rule fails, every row
+    is marked invalid for that schema rule because the dataset shape is invalid.
     """
     rule_results = {}
 
@@ -80,6 +153,21 @@ def run_quality_checks(df: pd.DataFrame, rules: dict) -> pd.DataFrame:
                 rule_config["column"],
                 rule_config["reference_df"],
                 rule_config["reference_column"],
+            )
+        elif rule_type == "schema":
+            schema_is_valid = validate_schema(df, rule_config["expected_columns"])
+            rule_results[rule_name] = pd.Series(schema_is_valid, index=df.index)
+        elif rule_type == "type":
+            rule_results[rule_name] = validate_column_type(
+                df,
+                rule_config["column"],
+                rule_config["expected_type"],
+            )
+        elif rule_type == "date":
+            rule_results[rule_name] = validate_date(
+                df,
+                rule_config["column"],
+                rule_config.get("date_format"),
             )
         else:
             raise ValueError(f"Unsupported quality rule type: {rule_type}")
