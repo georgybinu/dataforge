@@ -13,19 +13,58 @@ from src.validation.data_quality import run_quality_checks
 
 
 DEFAULT_INPUT_PATH = Path("data/raw/orders_dirty.csv")
+DEFAULT_CUSTOMERS_PATH = Path("data/raw/customers.csv")
+DEFAULT_PRODUCTS_PATH = Path("data/raw/products.csv")
+DEFAULT_STORES_PATH = Path("data/raw/stores.csv")
 DEFAULT_SILVER_OUTPUT_PATH = Path("data/silver/orders_valid.parquet")
 DEFAULT_QUARANTINE_OUTPUT_PATH = Path("data/quarantine/orders_invalid.parquet")
 
-RETAIL_ORDER_RULES = {
-    "order_id_unique": {"type": "unique", "column": "order_id"},
-    "customer_required": {"type": "not_null", "columns": ["customer_id"]},
-    "quantity_positive": {"type": "positive", "column": "quantity"},
-    "price_non_negative": {"type": "non_negative", "column": "unit_price"},
-}
+
+def _read_csv_file(path: Path, description: str) -> pd.DataFrame:
+    """Read a CSV file or raise a clear error when it is missing."""
+    if not path.exists():
+        raise FileNotFoundError(f"{description} CSV file not found: {path}")
+
+    return pd.read_csv(path)
+
+
+def build_retail_order_rules(
+    customers_df: pd.DataFrame,
+    products_df: pd.DataFrame,
+    stores_df: pd.DataFrame,
+) -> dict[str, dict[str, Any]]:
+    """Build retail order quality rules using loaded reference data."""
+    return {
+        "order_id_unique": {"type": "unique", "column": "order_id"},
+        "customer_required": {"type": "not_null", "columns": ["customer_id"]},
+        "quantity_positive": {"type": "positive", "column": "quantity"},
+        "price_non_negative": {"type": "non_negative", "column": "unit_price"},
+        "customer_referential_integrity": {
+            "type": "referential_integrity",
+            "column": "customer_id",
+            "reference_df": customers_df,
+            "reference_column": "customer_id",
+        },
+        "product_referential_integrity": {
+            "type": "referential_integrity",
+            "column": "product_id",
+            "reference_df": products_df,
+            "reference_column": "product_id",
+        },
+        "store_referential_integrity": {
+            "type": "referential_integrity",
+            "column": "store_id",
+            "reference_df": stores_df,
+            "reference_column": "store_id",
+        },
+    }
 
 
 def run_quality_pipeline(
     input_path: Union[str, Path] = DEFAULT_INPUT_PATH,
+    customers_path: Union[str, Path] = DEFAULT_CUSTOMERS_PATH,
+    products_path: Union[str, Path] = DEFAULT_PRODUCTS_PATH,
+    stores_path: Union[str, Path] = DEFAULT_STORES_PATH,
     silver_output_path: Union[str, Path] = DEFAULT_SILVER_OUTPUT_PATH,
     quarantine_output_path: Union[str, Path] = DEFAULT_QUARANTINE_OUTPUT_PATH,
 ) -> dict[str, Any]:
@@ -33,6 +72,9 @@ def run_quality_pipeline(
 
     Args:
         input_path: CSV file containing retail order records.
+        customers_path: CSV file containing valid customers.
+        products_path: CSV file containing valid products.
+        stores_path: CSV file containing valid stores.
         silver_output_path: Parquet path for valid records.
         quarantine_output_path: Parquet path for invalid records.
 
@@ -44,14 +86,19 @@ def run_quality_pipeline(
         ValueError: If required validation columns are missing.
     """
     input_file = Path(input_path)
+    customers_file = Path(customers_path)
+    products_file = Path(products_path)
+    stores_file = Path(stores_path)
     silver_file = Path(silver_output_path)
     quarantine_file = Path(quarantine_output_path)
 
-    if not input_file.exists():
-        raise FileNotFoundError(f"Input CSV file not found: {input_file}")
+    orders = _read_csv_file(input_file, "Input")
+    customers = _read_csv_file(customers_file, "Customers reference")
+    products = _read_csv_file(products_file, "Products reference")
+    stores = _read_csv_file(stores_file, "Stores reference")
 
-    orders = pd.read_csv(input_file)
-    validation_results = run_quality_checks(orders, RETAIL_ORDER_RULES)
+    rules = build_retail_order_rules(customers, products, stores)
+    validation_results = run_quality_checks(orders, rules)
 
     orders_with_results = orders.copy()
     orders_with_results["is_valid"] = validation_results["is_valid"]

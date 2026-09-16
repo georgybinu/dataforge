@@ -1,0 +1,251 @@
+product_id,product_name,category
+PROD-0001,Personal Care Product 0001,Personal Care
+PROD-0002,Home Product 0002,Home
+PROD-0003,Office Product 0003,Office
+PROD-0004,Outdoor Product 0004,Outdoor
+PROD-0005,Toys Product 0005,Toys
+PROD-0006,Outdoor Product 0006,Outdoor
+PROD-0007,Personal Care Product 0007,Personal Care
+PROD-0008,Outdoor Product 0008,Outdoor
+PROD-0009,Outdoor Product 0009,Outdoor
+PROD-0010,Toys Product 0010,Toys
+PROD-0011,Office Product 0011,Office
+PROD-0012,Office Product 0012,Office
+PROD-0013,Office Product 0013,Office
+PROD-0014,Home Product 0014,Home
+PROD-0015,Electronics Product 0015,Electronics
+PROD-0016,Home Product 0016,Home
+PROD-0017,Outdoor Product 0017,Outdoor
+PROD-0018,Electronics Product 0018,Electronics
+PROD-0019,Grocery Product 0019,Grocery
+PROD-0020,Home Product 0020,Home
+PROD-0021,Home Product 0021,Home
+PROD-0022,Toys Product 0022,Toys
+PROD-0023,Office Product 0023,Office
+PROD-0024,Office Product 0024,Office
+PROD-0025,Electronics Product 0025,Electronics
+PROD-0026,Home Product 0026,Home
+PROD-0027,Office Product 0027,Office
+PROD-0028,Home Product 0028,Home
+PROD-0029,Outdoor Product 0029,Outdoor
+PROD-0030,Grocery Product 0030,Grocery
+PROD-0031,Office Product 0031,Office
+PROD-0032,Apparel Product 0032,Apparel
+PROD-0033,Grocery Product 0033,Grocery
+PROD-0034,Office Product 0034,Office
+PROD-0035,Apparel Product 0035,Apparel
+PROD-0036,Apparel Product 0036,Apparel
+PROD-0037,Office Product 0037,Office
+PROD-0038,Grocery Product 0038,Grocery
+PROD-0039,Toys Product 0039,Toys
+PROD-0040,Electronics Product 0040,Electronics
+PROD-0041,Apparel Product 0041,Apparel
+PROD-0042,Office Product 0042,Office
+PROD-0043,Toys Product 0043,Toys
+PROD-0044,Toys Product 0044,Toys
+PROD-0045,Toys Product 0045,Toys
+PROD-0046,Outdoor Product 0046,Outdoor
+PROD-0047,Grocery Product 0047,Grocery
+PROD-0048,Apparel Product 0048,Apparel
+PROD-0049,Office Product 0049,Office
+PROD-0050,Toys Product 0050,Toys
+PROD-0051,Electronics Product 0051,Electronics
+PROD-0052,Electronics Product 0052,Electronics
+PROD-0053,Personal Care Product 0053,Personal Care
+PROD-0054,Toys Product 0054,Toys
+PROD-0055,Electronics Product 0055,Electronics
+PROD-0056,Apparel Product 0056,Apparel
+PROD-0057,Grocery Product 0057,Grocery
+PROD-0058,Grocery Product 0058,Grocery
+PROD-0059,Office Product 0059,Office
+PROD-0060,Electronics Product 0060,Electronics
+PROD-0061,Home Product 0061,Home
+PROD-0062,Electronics Product 0062,Electronics
+PROD-0063,Personal Care Product 0063,Personal Care
+PROD-0064,Home Product 0064,Home
+PROD-0065,Personal Care Product 0065,Personal Care
+PROD-0066,Toys Product 0066,Toys
+PROD-0067,Toys Product 0067,Toys
+PROD-0068,Office Product 0068,Office
+PROD-0069,Personal Care Product 0069,Personal Care
+PROD-0070,Office Product 0070,Office
+PROD-0071,Apparel Product 0071,Apparel
+PROD-0072,Electronics Product 0072,Electronics
+PROD-0073,Home Product 0073,Home
+PROD-0074,Home Product 0074,Home
+PROD-0075,Office Product 0075,Office
+PROD-0076,Electronics Product 0076,Electronics
+PROD-0077,Grocery Product 0077,Grocery
+PROD-0078,Home Product 0078,Home
+PROD-0079,Grocery Product 0079,Grocery
+PROD-0080,Electronics Product 0080,Electronics
+PROD-0081,Grocery Product 0081,Grocery
+PROD-0082,Apparel Product 0082,Apparel
+PROD-0083,Personal Care Product 0083,Personal Care
+PROD-0084,Toys Product 0084,Toys
+PROD-0085,Toys Product 0085,Toys
+PROD-0086,Office Product 0086,Office
+PROD-0087,Apparel Product 0087,Apparel
+PROD-0088,Home Product 0088,Home
+PROD-0089,Office Product 0089,Office
+PROD-0090,Office Product 0090,Office
+PROD-0091,Toys Product 0091,Toys
+PROD-0092,Electronics Product 0092,Electronics
+PROD-0093,Home Product 0093,Home
+PROD-0094,Office Product 0094,Office
+PROD-0095,Home Product 0095,Home
+PROD-0096,Personal Care Product 0096,Personal Care
+PROD-0097,Electronics Product 0097,Electronics
+PROD-0098,Home Product 0098,Home
+PROD-0099,Grocery Product 0099,Grocery
+PROD-0100,Office Product 0100,Office
+PROD-0101,Grocery Product 0101,Grocery
+PROD-0102,Electronics Product 0102,Electronics
+PROD-0103,Apparel Product 0103,Apparel
+PROD-0104,Grocery Product 0104,Grocery
+PROD-0105,Office Product 0105,Office
+PROD-0106,Office Product 0106,Office
+PROD-0107,Toys Product 0107,Toys
+PROD-0108,Electronics Product 0108,Electronics
+PROD-0109,Toys Product 0109,Toys
+PROD-0110,Office Product 0110,Office
+PROD-0111,Personal Care Product 0111,Personal Care
+PROD-0112,Office Product 0112,Office
+PROD-0113,Toys Product 0113,Toys
+PROD-0114,Toys Product 0114,Toys
+PROD-0115,Electronics Product 0115,Electronics
+PROD-0116,Apparel Product 0116,Apparel
+PROD-0117,Personal Care Product 0117,Personal Care
+PROD-0118,Outdoor Product 0118,Outdoor
+PROD-0119,Office Product 0119,Office
+PROD-0120,Apparel Product 0120,Apparel
+PROD-0121,Electronics Product 0121,Electronics
+PROD-0122,Home Product 0122,Home
+PROD-0123,Apparel Product 0123,Apparel
+PROD-0124,Office Product 0124,Office
+PROD-0125,Apparel Product 0125,Apparel
+PROD-0126,Grocery Product 0126,Grocery
+PROD-0127,Toys Product 0127,Toys
+PROD-0128,Toys Product 0128,Toys
+PROD-0129,Office Product 0129,Office
+PROD-0130,Grocery Product 0130,Grocery
+PROD-0131,Personal Care Product 0131,Personal Care
+PROD-0132,Toys Product 0132,Toys
+PROD-0133,Electronics Product 0133,Electronics
+PROD-0134,Toys Product 0134,Toys
+PROD-0135,Outdoor Product 0135,Outdoor
+PROD-0136,Personal Care Product 0136,Personal Care
+PROD-0137,Outdoor Product 0137,Outdoor
+PROD-0138,Outdoor Product 0138,Outdoor
+PROD-0139,Electronics Product 0139,Electronics
+PROD-0140,Grocery Product 0140,Grocery
+PROD-0141,Outdoor Product 0141,Outdoor
+PROD-0142,Personal Care Product 0142,Personal Care
+PROD-0143,Toys Product 0143,Toys
+PROD-0144,Office Product 0144,Office
+PROD-0145,Personal Care Product 0145,Personal Care
+PROD-0146,Apparel Product 0146,Apparel
+PROD-0147,Toys Product 0147,Toys
+PROD-0148,Electronics Product 0148,Electronics
+PROD-0149,Outdoor Product 0149,Outdoor
+PROD-0150,Office Product 0150,Office
+PROD-0151,Outdoor Product 0151,Outdoor
+PROD-0152,Electronics Product 0152,Electronics
+PROD-0153,Personal Care Product 0153,Personal Care
+PROD-0154,Apparel Product 0154,Apparel
+PROD-0155,Toys Product 0155,Toys
+PROD-0156,Personal Care Product 0156,Personal Care
+PROD-0157,Apparel Product 0157,Apparel
+PROD-0158,Home Product 0158,Home
+PROD-0159,Outdoor Product 0159,Outdoor
+PROD-0160,Toys Product 0160,Toys
+PROD-0161,Toys Product 0161,Toys
+PROD-0162,Apparel Product 0162,Apparel
+PROD-0163,Home Product 0163,Home
+PROD-0164,Office Product 0164,Office
+PROD-0165,Grocery Product 0165,Grocery
+PROD-0166,Office Product 0166,Office
+PROD-0167,Toys Product 0167,Toys
+PROD-0168,Toys Product 0168,Toys
+PROD-0169,Electronics Product 0169,Electronics
+PROD-0170,Apparel Product 0170,Apparel
+PROD-0171,Home Product 0171,Home
+PROD-0172,Grocery Product 0172,Grocery
+PROD-0173,Office Product 0173,Office
+PROD-0174,Apparel Product 0174,Apparel
+PROD-0175,Personal Care Product 0175,Personal Care
+PROD-0176,Electronics Product 0176,Electronics
+PROD-0177,Home Product 0177,Home
+PROD-0178,Electronics Product 0178,Electronics
+PROD-0179,Toys Product 0179,Toys
+PROD-0180,Electronics Product 0180,Electronics
+PROD-0181,Grocery Product 0181,Grocery
+PROD-0182,Toys Product 0182,Toys
+PROD-0183,Office Product 0183,Office
+PROD-0184,Office Product 0184,Office
+PROD-0185,Personal Care Product 0185,Personal Care
+PROD-0186,Toys Product 0186,Toys
+PROD-0187,Toys Product 0187,Toys
+PROD-0188,Home Product 0188,Home
+PROD-0189,Toys Product 0189,Toys
+PROD-0190,Grocery Product 0190,Grocery
+PROD-0191,Personal Care Product 0191,Personal Care
+PROD-0192,Home Product 0192,Home
+PROD-0193,Grocery Product 0193,Grocery
+PROD-0194,Electronics Product 0194,Electronics
+PROD-0195,Office Product 0195,Office
+PROD-0196,Personal Care Product 0196,Personal Care
+PROD-0197,Outdoor Product 0197,Outdoor
+PROD-0198,Office Product 0198,Office
+PROD-0199,Apparel Product 0199,Apparel
+PROD-0200,Office Product 0200,Office
+PROD-0201,Office Product 0201,Office
+PROD-0202,Toys Product 0202,Toys
+PROD-0203,Grocery Product 0203,Grocery
+PROD-0204,Toys Product 0204,Toys
+PROD-0205,Toys Product 0205,Toys
+PROD-0206,Outdoor Product 0206,Outdoor
+PROD-0207,Outdoor Product 0207,Outdoor
+PROD-0208,Personal Care Product 0208,Personal Care
+PROD-0209,Toys Product 0209,Toys
+PROD-0210,Outdoor Product 0210,Outdoor
+PROD-0211,Home Product 0211,Home
+PROD-0212,Home Product 0212,Home
+PROD-0213,Personal Care Product 0213,Personal Care
+PROD-0214,Home Product 0214,Home
+PROD-0215,Personal Care Product 0215,Personal Care
+PROD-0216,Apparel Product 0216,Apparel
+PROD-0217,Outdoor Product 0217,Outdoor
+PROD-0218,Toys Product 0218,Toys
+PROD-0219,Personal Care Product 0219,Personal Care
+PROD-0220,Personal Care Product 0220,Personal Care
+PROD-0221,Grocery Product 0221,Grocery
+PROD-0222,Toys Product 0222,Toys
+PROD-0223,Apparel Product 0223,Apparel
+PROD-0224,Grocery Product 0224,Grocery
+PROD-0225,Outdoor Product 0225,Outdoor
+PROD-0226,Electronics Product 0226,Electronics
+PROD-0227,Toys Product 0227,Toys
+PROD-0228,Electronics Product 0228,Electronics
+PROD-0229,Toys Product 0229,Toys
+PROD-0230,Apparel Product 0230,Apparel
+PROD-0231,Grocery Product 0231,Grocery
+PROD-0232,Personal Care Product 0232,Personal Care
+PROD-0233,Grocery Product 0233,Grocery
+PROD-0234,Electronics Product 0234,Electronics
+PROD-0235,Toys Product 0235,Toys
+PROD-0236,Office Product 0236,Office
+PROD-0237,Outdoor Product 0237,Outdoor
+PROD-0238,Personal Care Product 0238,Personal Care
+PROD-0239,Electronics Product 0239,Electronics
+PROD-0240,Outdoor Product 0240,Outdoor
+PROD-0241,Personal Care Product 0241,Personal Care
+PROD-0242,Outdoor Product 0242,Outdoor
+PROD-0243,Toys Product 0243,Toys
+PROD-0244,Apparel Product 0244,Apparel
+PROD-0245,Electronics Product 0245,Electronics
+PROD-0246,Home Product 0246,Home
+PROD-0247,Office Product 0247,Office
+PROD-0248,Home Product 0248,Home
+PROD-0249,Electronics Product 0249,Electronics
+PROD-0250,Personal Care Product 0250,Personal Care

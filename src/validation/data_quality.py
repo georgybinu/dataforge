@@ -37,11 +37,29 @@ def validate_non_negative(df: pd.DataFrame, column: str) -> pd.Series:
     return df[column] >= 0
 
 
+def validate_referential_integrity(
+    df: pd.DataFrame,
+    column: str,
+    reference_df: pd.DataFrame,
+    reference_column: str,
+) -> pd.Series:
+    """Return True when values exist in a reference dataset.
+
+    Null values in the transaction dataframe are treated as invalid.
+    """
+    _validate_columns_exist(df, [column])
+    _validate_columns_exist(reference_df, [reference_column])
+
+    reference_values = set(reference_df[reference_column].dropna())
+    return df[column].notna() & df[column].isin(reference_values)
+
+
 def run_quality_checks(df: pd.DataFrame, rules: dict) -> pd.DataFrame:
     """Run configured quality checks and return row-level validation results.
 
     The rules dictionary maps rule names to rule definitions. Each rule definition
-    must include a supported type: not_null, unique, positive, or non_negative.
+    must include a supported type: not_null, unique, positive, non_negative, or
+    referential_integrity.
     """
     rule_results = {}
 
@@ -56,6 +74,13 @@ def run_quality_checks(df: pd.DataFrame, rules: dict) -> pd.DataFrame:
             rule_results[rule_name] = validate_positive(df, rule_config["column"])
         elif rule_type == "non_negative":
             rule_results[rule_name] = validate_non_negative(df, rule_config["column"])
+        elif rule_type == "referential_integrity":
+            rule_results[rule_name] = validate_referential_integrity(
+                df,
+                rule_config["column"],
+                rule_config["reference_df"],
+                rule_config["reference_column"],
+            )
         else:
             raise ValueError(f"Unsupported quality rule type: {rule_type}")
 
