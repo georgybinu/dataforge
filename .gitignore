@@ -32,6 +32,13 @@ htmlcov/
 
 # Logs
 *.log
+logs/
+
+# Temporary and local runtime files
+*.tmp
+*.temp
+.streamlit/
+streamlit-cache/
 
 # OS files
 .DS_Store
